@@ -20,7 +20,6 @@ const containsOther = 3
 export default function remarkUnwrapTags() {
   return (tree) => {
     visit(tree, 'paragraph', (node, index, parent) => {
-      console.log(parent)
       if(node.children) {
         node.children.forEach((child) => {
           if(child.value) {
@@ -29,9 +28,6 @@ export default function remarkUnwrapTags() {
         })
       }
       //console.log(node.children)
-      if(node.children[0].value ==='(If you have a complete sentence that stands alone in brackets, start it with a capital letter and end it with a full stop before the closing bracket.)') {
-        console.log(parent)
-      }
       if(parent.name==='p') {
         parent.children = node.children
       }
