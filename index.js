@@ -5,13 +5,7 @@
  * @typedef {import('mdast').LinkReference} LinkReference
  */
 
- import {visit, SKIP} from 'unist-util-visit'
- import {whitespace} from 'hast-util-whitespace'
- 
- const unknown = 1
- const containsImage = 2
- const containsOther = 3
- 
+ import {visit} from 'unist-util-visit'
  /**
   * Plugin to remove the wrapping paragraph for images.
   *
@@ -35,46 +29,3 @@
      })
    }
  }
- 
- /**
-  * @param {Paragraph|Link|LinkReference} node
-  * @param {boolean} [inLink]
-  * @returns {1|2|3}
-  */
- function applicable(node, inLink) {
-   /** @type {1|2|3} */
-   let image = unknown
-   let index = -1
- 
-   while (++index < node.children.length) {
-     const child = node.children[index]
- 
-     if (whitespace(child)) {
-       // White space is fine.
-     } else if (child.type === 'image' || child.type==='text' || child.type === 'imageReference') {
-       image = containsImage
-       if(child.type==='text') {
-         child.value = child.value.replace("\n", '').toString()
-       }
- 
-     } else if (
-       !inLink &&
-       (child.type === 'link' || child.type === 'linkReference')
-     ) {
-       const linkResult = applicable(child, true)
- 
-       if (linkResult === containsOther) {
-         return containsOther
-       }
- 
-       if (linkResult === containsImage) {
-         image = containsImage
-       }
-     } else {
-       return containsOther
-     }
-   }
- 
-   return image
- }
- 
