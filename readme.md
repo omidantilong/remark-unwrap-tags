@@ -1,34 +1,18 @@
 # remark-unwrap-tags
 
-[![Build][build-badge]][build]
-[![Coverage][coverage-badge]][coverage]
-[![Downloads][downloads-badge]][downloads]
-[![Size][size-badge]][size]
-[![Sponsors][sponsors-badge]][collective]
-[![Backers][backers-badge]][collective]
-[![Chat][chat-badge]][chat]
-
-**[remark][]** plugin to remove the wrapping paragraph for nested tags.
-
-## Contents
-
-*   [What is this?](#what-is-this)
-*   [When should I use this?](#when-should-i-use-this)
-*   [Install](#install)
-*   [Use](#use)
-*   [API](#api)
-*   [Types](#types)
-*   [Compatibility](#compatibility)
-*   [Security](#security)
-*   [Related](#related)
-*   [Contribute](#contribute)
-*   [License](#license)
-
 ## What is this?
 
-This package is a [unified][] ([remark][]) plugin that searches for paragraphs
-which contain only images (possibly in links) and nothing else, and then remove
-those surrounding paragraphs.
+This package is a remark plugin that searches for nested `<p>` tags in arbitrary html embedded in markdown and unwraps them. 
+
+It was designed to solve the problem of Next.js hydration errors caused by nested tags producing different results on the server vs browser. 
+
+MDX, unlike commonmark, applies formatting to things inside html tags - which is great until your editor starts trying to wrap lines. 
+
+In practice, this plugin visits every paragraph node and checks if the parent is a mdxJsxFlowElement. If so it replaces the parent's `children` prop with its own `children`. 
+
+There is probably a better way to do this.
+
+It's inspired by [remark-unwrap-images](/remarkjs/remark-unwrap-images).
 
 **unified** is a project that transforms content with abstract syntax trees
 (ASTs).
@@ -38,9 +22,7 @@ This is a remark plugin that transforms mdast.
 
 ## When should I use this?
 
-This project can make it simpler to style images with CSS, for example
-displaying them at the full available width, because paragraph styles no longer
-interfere with them.
+If you just want to completely disable markdown parsing inside html in mdx files, as per Commonmark spec.
 
 ## Install
 
@@ -48,33 +30,25 @@ This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908
 In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
 
 ```sh
-npm install remark-unwrap-images
-```
-
-In Deno with [Skypack][]:
-
-```js
-import remarkUnwrapImages from 'https://cdn.skypack.dev/remark-unwrap-images@3?dts'
-```
-
-In browsers with [Skypack][]:
-
-```html
-<script type="module">
-  import remarkUnwrapImages from 'https://cdn.skypack.dev/remark-unwrap-images@3?min'
-</script>
+npm install remark-unwrap-tags
 ```
 
 ## Use
 
-Say we have the following file `example.md`.
+Say we have the following file `example.mdx`.
 
 ```markdown
 # Hello world
 
 Lorem ipsum.
 
-![hi](there.png)
+<div>
+  <span>
+    This is a super long paragraph that could wrap onto
+    multiple lines. Without the plugin, mdx will
+    insert <p> tags inside the <span>.
+  </span>
+</div>
 ```
 
 And our module `example.js` looks as follows:
@@ -83,13 +57,13 @@ And our module `example.js` looks as follows:
 import {read} from 'to-vfile'
 import {remark} from 'remark'
 import remarkHtml from 'remark-html'
-import remarkUnwrapImages from 'remark-unwrap-images'
+import remarkUnwrapTags from 'remark-unwrap-tags'
 
 main()
 
 async function main() {
   const file = await remark()
-    .use(remarkUnwrapImages)
+    .use(remarkUnwrapTags)
     .use(remarkHtml)
     .process(await read('example.md'))
 
@@ -101,18 +75,17 @@ Now running `node example.js` yields:
 
 ```html
 <h1>Hello world</h1>
-<p>Lorem ipsum.</p>
-<img src="there.png" alt="hi">
+<span>This is a super long paragraph {...}</span> 
 ```
 
 ## API
 
 This package exports no identifiers.
-The default export is `remarkUnwrapImages`.
+The default export is `remarkUnwrapTags`.
 
-#### `unified().use(remarkUnwrapImages)`
+#### `unified().use(remarkUnwrapTags)`
 
-Plugin to remove the wrapping paragraph for images.
+Plugin to remove the wrapping paragraph for arbitrary html content.
 There are no options.
 
 ## Types
@@ -120,92 +93,13 @@ There are no options.
 This package is fully typed with [TypeScript][].
 There are no extra exported types.
 
-## Compatibility
-
-Projects maintained by the unified collective are compatible with all maintained
-versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
-
-This plugin works with `unified` version 6+ and `remark` version 7+.
-
 ## Security
 
-Use of `remark-unwrap-images` does not involve **[rehype][]** (**[hast][]**) or
+Use of `remark-unwrap-tags` does not involve **[rehype][]** (**[hast][]**) or
 user content, it only removes some existing nodes, so there are no openings for
 [cross-site scripting (XSS)][xss] attacks.
 
-## Related
-
-*   [`remark-images`](https://github.com/remarkjs/remark-images)
-    — add a simpler image syntax
-*   [`remark-embed-images`](https://github.com/remarkjs/remark-embed-images)
-    — embed local images as data URIs, inlining files as base64-encoded values
-
-## Contribute
-
-See [`contributing.md`][contributing] in [`remarkjs/.github`][health] for ways
-to get started.
-See [`support.md`][support] for ways to get help.
-
-This project has a [code of conduct][coc].
-By interacting with this repository, organization, or community you agree to
-abide by its terms.
 
 ## License
 
-[MIT][license] © Compositor and Vercel, Inc.
-
-<!-- Definitions -->
-
-[build-badge]: https://github.com/remarkjs/remark-unwrap-images/workflows/main/badge.svg
-
-[build]: https://github.com/remarkjs/remark-unwrap-images/actions
-
-[coverage-badge]: https://img.shields.io/codecov/c/github/remarkjs/remark-unwrap-images.svg
-
-[coverage]: https://codecov.io/github/remarkjs/remark-unwrap-images
-
-[downloads-badge]: https://img.shields.io/npm/dm/remark-unwrap-images.svg
-
-[downloads]: https://www.npmjs.com/package/remark-unwrap-images
-
-[size-badge]: https://img.shields.io/bundlephobia/minzip/remark-unwrap-images.svg
-
-[size]: https://bundlephobia.com/result?p=remark-unwrap-images
-
-[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
-
-[backers-badge]: https://opencollective.com/unified/backers/badge.svg
-
-[collective]: https://opencollective.com/unified
-
-[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
-
-[chat]: https://github.com/remarkjs/remark/discussions
-
-[npm]: https://docs.npmjs.com/cli/install
-
-[skypack]: https://www.skypack.dev
-
-[health]: https://github.com/remarkjs/.github
-
-[contributing]: https://github.com/remarkjs/.github/blob/HEAD/contributing.md
-
-[support]: https://github.com/remarkjs/.github/blob/HEAD/support.md
-
-[coc]: https://github.com/remarkjs/.github/blob/HEAD/code-of-conduct.md
-
-[license]: license
-
-[remark]: https://github.com/remarkjs/remark
-
-[unified]: https://github.com/unifiedjs/unified
-
-[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
-
-[typescript]: https://www.typescriptlang.org
-
-[rehype]: https://github.com/rehypejs/rehype
-
-[hast]: https://github.com/syntax-tree/hast
+[MIT][license]
