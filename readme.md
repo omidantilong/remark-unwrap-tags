@@ -12,7 +12,7 @@ In practice, this plugin visits every paragraph node and checks if the parent is
 
 There is probably a better way to do this.
 
-It's inspired by [remark-unwrap-images](/remarkjs/remark-unwrap-images).
+It's inspired by [remark-unwrap-images](https://github.com/remarkjs/remark-unwrap-images).
 
 **unified** is a project that transforms content with abstract syntax trees
 (ASTs).
@@ -90,16 +90,16 @@ There are no options.
 
 ## Types
 
-This package is fully typed with [TypeScript][].
+This package is fully typed with Typescript.
 There are no extra exported types.
 
 ## Security
 
-Use of `remark-unwrap-tags` does not involve **[rehype][]** (**[hast][]**) or
+Use of `remark-unwrap-tags` does not involve **rehape** (**hast**) or
 user content, it only removes some existing nodes, so there are no openings for
-[cross-site scripting (XSS)][xss] attacks.
+XSS attacks.
 
 
 ## License
 
-[MIT][license]
+MIT
