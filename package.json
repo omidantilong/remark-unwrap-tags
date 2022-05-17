@@ -1,6 +1,6 @@
 {
   "name": "remark-unwrap-tags",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "remark plugin to remove the wrapping paragraph for nested tags",
   "license": "MIT",
   "keywords": [
@@ -14,7 +14,7 @@
     "unwrap"
   ],
   "repository": "omidantilong/remark-unwrap-tags",
-  "bugs": "https://github.com/omidantilong/remark-unwrap-images/issues",
+  "bugs": "https://github.com/omidantilong/remark-unwrap-tags/issues",
 
   "author": "Omid Kashan <omid@antilong.com> (https://29b6.io)",
  
