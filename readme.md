@@ -2,13 +2,13 @@
 
 ## What is this?
 
-This package is a remark plugin that searches for nested `<p>` tags in arbitrary html embedded in markdown and unwraps them. 
+This package is a remark plugin that searches for nested `<p>` tags in arbitrary html embedded in markdown and unwraps them.
 
-It was designed to solve the problem of Next.js hydration errors caused by nested tags producing different results on the server vs browser. 
+It was designed to solve the problem of Next.js hydration errors caused by nested tags producing different results on the server vs browser.
 
-MDX, unlike commonmark, applies formatting to things inside html tags - which is great until your editor starts trying to wrap lines. 
+MDX, unlike commonmark, applies formatting to things inside html tags - which is great until your editor starts trying to wrap lines.
 
-In practice, this plugin visits every paragraph node and checks if the parent is a mdxJsxFlowElement. If so it replaces the parent's `children` prop with its own `children`. 
+In practice, this plugin visits every paragraph node and checks if the parent is a mdxJsxFlowElement. If so it replaces the parent's `children` prop with its own `children`.
 
 There is probably a better way to do this.
 
@@ -27,7 +27,7 @@ If you just want to completely disable markdown parsing inside html in mdx files
 ## Install
 
 This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
-In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
+In Node.js (version 12.20+, 14.14+, or 16.0+), install with \[npm]\[]:
 
 ```sh
 npm install remark-unwrap-tags
@@ -98,7 +98,6 @@ There are no extra exported types.
 Use of `remark-unwrap-tags` does not involve **rehape** (**hast**) or
 user content, it only removes some existing nodes, so there are no openings for
 XSS attacks.
-
 
 ## License
 
