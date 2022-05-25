@@ -12,9 +12,7 @@ import {visit} from 'unist-util-visit'
  * @type {import('unified').Plugin<void[], Root>}
  */
 export default function remarkUnwrapTags() {
-  return (tree) => {
-    walkAndUnwrap(tree)
-  }
+  return (tree) => walkAndUnwrap(tree)
 }
 
 export const walkAndUnwrap = (tree) => {
