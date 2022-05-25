@@ -12,17 +12,13 @@ import {visit} from 'unist-util-visit'
  * @type {import('unified').Plugin<void[], Root>}
  */
 export default function remarkUnwrapTags() {
-  console.log(this)
   return (tree) => {
-    walkTheTree(tree)
+    walkAndUnwrap(tree)
   }
 }
 
-export const walkTheTree = (tree) => {
-  console.log(tree)
+export const walkAndUnwrap = (tree) => {
   visit(tree, 'paragraph', (node, index, parent) => {
-    //console.log(node, index, parent)
-
     if (node.children) {
       node.children.forEach((child) => {
         if (child && child.value) {
@@ -33,7 +29,6 @@ export const walkTheTree = (tree) => {
         }
       })
     }
-    //console.log(JSON.stringify(parent))
     if (parent.type === 'mdxJsxFlowElement') {
       parent.children = node.children
     }
