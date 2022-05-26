@@ -621,7 +621,7 @@ export default {
         {
           type: 'text',
           value:
-            'Accessibility AccessibilityAccessibilityAccessibilityAccessibility means removing these barriersor not creating barriers in the first place.',
+            'Accessibility AccessibilityAccessibilityAccessibilityAccessibility means removing these barriers or not creating barriers in the first place.',
           position: {
             start: {
               line: 22,
