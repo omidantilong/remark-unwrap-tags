@@ -10,7 +10,7 @@ test('remarkUnwrapTags', (t) => {
   t.equal(
     JSON.stringify(walkAndUnwrap(input)),
     JSON.stringify(expected),
-    'walks the tree'
+    'unwraps nested h3'
   )
   t.end()
 })
