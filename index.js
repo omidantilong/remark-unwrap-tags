@@ -17,7 +17,7 @@ export default function remarkUnwrapTags() {
 
 export const walkAndUnwrap = (tree) => {
   visit(tree, 'paragraph', (node, index, parent) => {
-    if (node.children) {
+    /*if (node.children) {
       node.children.forEach((child) => {
         if (child && child.value) {
           child.value = child.value
@@ -26,7 +26,7 @@ export const walkAndUnwrap = (tree) => {
             .toString()
         }
       })
-    }
+    }*/
     if (parent.type === 'mdxJsxFlowElement') {
       parent.children = node.children
     }
